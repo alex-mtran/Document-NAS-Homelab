@@ -14,9 +14,9 @@ This repository documents the configuration and operational decisions for a simp
 
 
 
-
-## Key Features and Specifications
 <a name="key-features-and-specifications-anchor-point"></a>
+## Key Features and Specifications
+
 NAS model: &emsp;Buffalo TS3410D NAS <br>
 Processor: &nbsp;&nbsp;&nbsp;&emsp;Annapurna Labs Alpine AL-212 Dual-Core @ 1.4 GHz <br>
 RAM: &emsp;&emsp;&emsp;&emsp;1GB DDR3 <br>
@@ -28,9 +28,9 @@ Backup: &emsp;&emsp;&emsp;Supports NovaBACKUP (1 server/10 workstation licenses)
 
 
 
-
-## Initial Setup
 <a name="initial-setup-anchor-point"></a>
+## Initial Setup
+
 Place the NAS on a flat, stable surface in a well-ventilated area near router or network switch. <br>
 
 Connect one end of the supplied Ethernet cable to one of the LAN ports on the back of the NAS and the other end to an available port on the router or network switch.<br>
@@ -54,9 +54,9 @@ Change default password.
 
 
 
-
-## Setting Configurations
 <a name="setting-configurations-anchor-point"></a>
+## Setting Configurations
+
 ### RAID
 <img width="241" height="179" alt="image" src="https://github.com/user-attachments/assets/0947575b-6af9-4a37-9f5a-c61b6d8f77fd" />
 
@@ -64,7 +64,7 @@ RAID 0 doesn’t provide fault tolerance or redundancy. There’s no data redund
 
 NOTE: The above image shows around 3.6TB but really means *gibibytes* not gigabytes. The drives are 1TB each which correctly results in a total storage of around 3.6 TiB as shown.
 
-[More information on RAID](#raid-anchor-point)
+[More information on RAID](#detailed-technical-information-anchor-point)
 
 ### File sharing
 <img width="1424" height="354" alt="image" src="https://github.com/user-attachments/assets/e25a1521-0e16-466f-983e-4b2dfe7a97dd" />
@@ -75,7 +75,7 @@ All protocols and features which are not used/needed are disabled for security. 
 
 SMB3 provides the most secure form of protection and thus is the upper limit. The lower limit is only between the options SMB1 (which is insecure) and SMB2 and thus SMB2 is chosen.
 
-[More information on SMB](#smb-anchor-point)
+[More information on SMB](#detailed-technical-information-anchor-point)
 
 ### IP Assignment
 Set a static IP address for reliable access, external access (although not pertinent in this case), easier management, simplified configuration; basically for ease of use. This can be done either through a DHCP reservation or by statically assigning an IP address.
@@ -103,19 +103,19 @@ The SMTP account password. NOTE: Gmail / Outlook → use an App Password, NOT yo
 Email subject name. <br>
 Recipient emails to be added. <br>
 
-[More information on SMTP authentication](#smtp-authentication-anchor-point)
+[More information on SMTP authentication](#detailed-technical-information-anchor-point)
 
-[More information on SSL/TLS and STARTTLS](#ssl-tls-starttls-anchor-point)
+[More information on SSL/TLS and STARTTLS](#detailed-technical-information-anchor-point)
 
-## Detailed Technical Information
 <a name="detailed-technical-information-anchor-point"></a>
-<a name="raid-anchor-point"></a>
-<a href=https://www.backblaze.com/blog/nas-raid-levels-explained-choosing-the-right-level-to-protect-your-nas-data/ target="_blank" rel="noopener noreferrer">More information on RAID</a>
+## Detailed Technical Information
 
-<a name="smb-anchor-point"></a>
-<a href="https://visualitynq.com/resources/articles/what-is-smb-what-it-decision-makers-need-to-know/" target="_blank" rel="noopener noreferrer">More information on SMB</a>
+<a href=https://www.backblaze.com/blog/nas-raid-levels-explained-choosing-the-right-level-to-protect-your-nas-data/
+target="_blank" rel="noopener noreferrer">More information on RAID</a>
 
-<a name="smtp-authentication-anchor-point"></a>
+<a href="https://visualitynq.com/resources/articles/what-is-smb-what-it-decision-makers-need-to-know/"
+target="_blank" rel="noopener noreferrer">More information on SMB</a>
+
 <a href="https://www.mailslurp.com/blog/smtp-authentication/"
 target="_blank" rel="noopener noreferrer">More information on SMTP authentication</a>
 

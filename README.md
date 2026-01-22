@@ -80,9 +80,9 @@ SMB3 provides the most secure form of protection and thus is the upper limit. Th
 ### IP Assignment
 Set a static IP address for reliable access, external access (although not pertinent in this case), easier management, simplified configuration; basically for ease of use. This can be done either through a DHCP reservation or by statically assigning an IP address.
 
-NOTE:
-DHCP reservation: Done through the router to always assign the same IP address for the NAS.
-Manual assignment: Done through the NAS network settings. Make sure to have it assigned outside of the DHCP range to avoid conflicts.
+NOTE: <br>
+DHCP reservation - Done through the router to always assign the same IP address for the NAS. <br>
+Manual assignment - Done through the NAS network settings. Make sure to have it assigned outside of the DHCP range to avoid conflicts.
 
 ### Update
 <img width="881" height="262" alt="image" src="https://github.com/user-attachments/assets/840608bb-9918-4513-93a7-62d1c5d79c0c" />

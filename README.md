@@ -9,7 +9,14 @@ This repository documents the configuration and operational decisions for a simp
 1. [Key features and specifications](#key-features-and-specifications-anchor-point)
 2. [Initial Setup](#initial-setup-anchor-point)
 3. [Setting configurations](#setting-configurations-anchor-point)
-4. [Detailed technical information](#detailed-technical-information-anchor-point)
+4. [Mapping NAS drive](#mapping-nas-drive-anchor-point)
+5. [Detailed technical information](#detailed-technical-information-anchor-point)
+
+
+
+
+
+
 
 
 
@@ -28,6 +35,12 @@ Backup: &emsp;&emsp;&emsp;Supports NovaBACKUP (1 server/10 workstation licenses)
 
 
 
+
+
+
+
+
+
 <a name="initial-setup-anchor-point"></a>
 ## Initial Setup
 
@@ -41,15 +54,21 @@ Turn on the NAS. <br>
 
 The power LED on the front should start blinking. Wait for the LED to turn solid, indicating the system is ready for configuration. <br>
 
-Download and install the Buffalo NAS Navigator utility from the official Buffalo support website. <br>
+Download and install the <a href="https://buffaloamericas.com/knowledge-base/KB1068" target="_blank" rel="noopener noreferrer">Buffalo NAS Navigator</a> utility from the official Buffalo support website. <br>
 
-Open NAS Navigator. It should automatically detect the NAS on the network. <br>
+Open NAS Navigator. It should automatically detect the NAS on the network. (If it does not detect the NAS, go into router admin page and manually search for device via device name or MAC address to find the NAS IP address) <br>
 
-Right-click the device in NAS Navigator and select "Properties" or enter the IP address of the NAS into a web browser to access the configuration interface. If the NAS is not automatically detected, then go into router admin page and manually search for device via device name or MAC address (displayed on the physical NAS). <br>
+Right-click the device in NAS Navigator and select "Properties" or enter the IP address of the NAS into a web browser to access the configuration interface. <br>
 
 The default username is admin and the password is password. NOTE: For newer firmware (v3.00+), you must change this password immediately upon first login.
 
 Change default password.
+
+
+
+
+
+
 
 
 
@@ -106,6 +125,39 @@ Recipient emails to be added. <br>
 [More information on SMTP authentication](#detailed-technical-information-anchor-point)
 
 [More information on SSL/TLS and STARTTLS](#detailed-technical-information-anchor-point)
+
+
+
+
+
+
+
+
+
+
+<a name="mapping-nas-drive-anchor-point"></a>
+## Mapping NAS Drive
+
+Open File Explorer and right-click on "This PC" in the left pane. <br>
+
+Press "Map network drive..." <br>
+
+Optional: Change drive letter to your desired letter. <br>
+
+Input NAS drive in the format "\\\server\share" where "server" is the IP address of the NAS and "share" is the name of the folder share you created in the NAS. <br>
+Ex:
+
+<img width="607" height="448" alt="image" src="https://github.com/user-attachments/assets/c66335fe-5511-42bb-b668-21f7d47e0f90" />
+
+
+
+
+
+
+
+
+
+
 
 <a name="detailed-technical-information-anchor-point"></a>
 ## Detailed Technical Information

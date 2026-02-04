@@ -1,185 +1,122 @@
 # NAS Homelab
-This repository documents the configuration and operational decisions for a simple, local NAS file server. It is intended for learning, reproducibility, and homelab reference purposes.
-<br><br><br><br><br>
 
+This repository documents the configuration, setup, and operational decisions for a local NAS file server. It is intended for learning, reproducibility, and homelab reference purposes.
 
+---
 
+## Table of Contents
+1. [Key Features and Specifications](#key-features-and-specifications)
+2. [Initial Setup](#initial-setup)
+3. [Configuration Settings](#configuration-settings)
+4. [Mapping the NAS Drive](#mapping-the-nas-drive)
+5. [Detailed Technical Information](#detailed-technical-information)
 
-## Table of Contents 
-1. [Key features and specifications](#key-features-and-specifications-anchor-point)
-2. [Initial Setup](#initial-setup-anchor-point)
-3. [Setting configurations](#setting-configurations-anchor-point)
-4. [Mapping NAS drive](#mapping-nas-drive-anchor-point)
-5. [Detailed technical information](#detailed-technical-information-anchor-point)
-<br><br><br><br><br>
+---
 
-
-
-
-
-
-
-
-
-<a name="key-features-and-specifications-anchor-point"></a>
 ## Key Features and Specifications
 
-NAS model: &emsp;Buffalo TS3410D NAS <br>
-Processor: &nbsp;&nbsp;&nbsp;&emsp;Annapurna Labs Alpine AL-212 Dual-Core @ 1.4 GHz <br>
-RAM: &emsp;&emsp;&emsp;&emsp;1GB DDR3 <br>
-Drives: &nbsp;&nbsp;&emsp;&emsp;&emsp;4 3.5-inch SATA hard drives (1TB each) <br>
-Connectivity: &nbsp;&nbsp;&nbsp;Dual Gigabit Ethernet ports <br>
-Security: &emsp;&emsp;&nbsp;&nbsp;&nbsp;256-bit AES encryption, Boot Authentication, Kensington lock slot, drive bay locks <br>
-Backup: &emsp;&emsp;&emsp;Supports NovaBACKUP (1 server/10 workstation licenses), Cloud Backup (Dropbox, S3, Azure, OneDrive), Private Cloud Replication, iSCSI, Rsync <br>
-<br><br><br><br><br>
+| Feature       | Specification |
+|---------------|---------------|
+| NAS Model     | Buffalo TS3410D NAS |
+| Processor     | Annapurna Labs Alpine AL-212 Dual-Core @ 1.4 GHz |
+| RAM           | 1GB DDR3 |
+| Drives        | 4 × 3.5-inch SATA hard drives (1TB each) |
+| Connectivity  | Dual Gigabit Ethernet ports |
+| Security      | 256-bit AES encryption, Boot Authentication, Kensington lock slot, drive bay locks |
+| Backup        | NovaBACKUP (1 server/10 workstation licenses), Cloud Backup (Dropbox, S3, Azure, OneDrive), Private Cloud Replication, iSCSI, Rsync |
 
+---
 
-
-
-
-
-
-
-
-<a name="initial-setup-anchor-point"></a>
 ## Initial Setup
 
-Place the NAS on a flat, stable surface in a well-ventilated area near router or network switch. <br>
+1. Place the NAS on a flat, stable surface in a well-ventilated area near your router or network switch.
+2. Connect the NAS to your network using the supplied Ethernet cable.
+3. Plug in the power adapter and connect it to a surge-protected outlet.
+4. Power on the NAS. Wait for the power LED to turn solid, indicating readiness.
+5. Download and install the [Buffalo NAS Navigator](https://buffaloamericas.com/knowledge-base/KB1068) utility.
+6. Open NAS Navigator; it should detect your NAS automatically. If not, locate the NAS IP via your router using its device name or MAC address.
+7. Access the NAS configuration interface either by right-clicking the device in NAS Navigator and selecting **Properties**, or by entering the NAS IP in a web browser.
+8. Change the default password.
 
-Connect one end of the supplied Ethernet cable to one of the LAN ports on the back of the NAS and the other end to an available port on the router or network switch.<br>
+**Default credentials:**  
+- Username: `admin`  
+- Password: `password`  
 
-Plug the AC adapter into the power port on the back of the device and connect the other end to a surge-protected power outlet. <br>
+> **Note:** For firmware v3.00+, changing the default password on first login is mandatory.
 
-Turn on the NAS. <br>
+---
 
-The power LED on the front should start blinking. Wait for the LED to turn solid, indicating the system is ready for configuration. <br>
+## Configuration Settings
 
-Download and install the <a href="https://buffaloamericas.com/knowledge-base/KB1068" target="_blank" rel="noopener noreferrer">Buffalo NAS Navigator</a> utility from the official Buffalo support website. <br>
+### RAID
 
-Open NAS Navigator. It should automatically detect the NAS on the network. (If it does not detect the NAS, go into router admin page and manually search for device via device name or MAC address to find the NAS IP address) <br>
+![RAID Setup](https://github.com/user-attachments/assets/0947575b-6af9-4a37-9f5a-c61b6d8f77fd)
 
-Right-click the device in NAS Navigator and select "Properties" or enter the IP address of the NAS into a web browser to access the configuration interface. <br>
+- RAID 0 was chosen for simplicity; it offers no redundancy or fault tolerance.
+- Total storage is approximately 3.6 TiB (1TB × 4 drives).
 
-The default username is admin and the password is password. NOTE: For newer firmware (v3.00+), you must change this password immediately upon first login.
+[More on RAID](#detailed-technical-information)
 
-Change default password.
-<br><br><br><br><br>
+### File Sharing
 
+![File Sharing](https://github.com/user-attachments/assets/e25a1521-0e16-466f-983e-4b2dfe7a97dd)
 
+- Only required protocols are enabled; SMB is used for Windows and iOS compatibility.
+- SMB2 is the minimum supported version; SMB3 is the most secure.
 
+![SMB Version](https://github.com/user-attachments/assets/ac6b9bf4-6b94-49ca-b5a2-438a0c018e1f)
 
+[More on SMB](#detailed-technical-information)
 
+### IP Assignment
 
+- Assign a static IP for consistent access and simplified management.
+- Can be set via **DHCP reservation** in the router or **manual assignment** in NAS network settings.
+- Ensure the IP is outside the DHCP range to prevent conflicts.
 
+### Updates
 
+![Automatic Updates](https://github.com/user-attachments/assets/840608bb-9918-4513-93a7-62d1c5d79c0c)
 
-<a name="setting-configurations-anchor-point"></a>
-## Setting Configurations
+- Enable automatic updates for firmware and security patches.
 
-#### RAID
-<img width="241" height="179" alt="image" src="https://github.com/user-attachments/assets/0947575b-6af9-4a37-9f5a-c61b6d8f77fd" />
+### Email Notifications
 
-RAID 0 doesn’t provide fault tolerance or redundancy. There’s no data redundancy and an increased risk of data loss. However, as the purpose of this file server is for temporary storage of unimportant files and RAID 0 is the easiest to setup, this option was chosen.
+![Email Notifications](https://github.com/user-attachments/assets/ee98fe56-f764-414a-9b72-880b18d398e8)
 
-NOTE: The above image shows around 3.6TB but really means *gibibytes* not gigabytes. The drives are 1TB each which correctly results in a total storage of around 3.6 TiB as shown.
+- Configure SMTP settings:
 
-[More information on RAID](#detailed-technical-information-anchor-point)
-<br><br>
+  | Parameter | Example / Description |
+  |-----------|---------------------|
+  | SMTP Server | `smtp.gmail.com`, `smtp.mail.yahoo.com`, etc. |
+  | SMTP Port | 465 (SSL/TLS) or 587 (STARTTLS) |
+  | Authentication Type | LOGIN (SMTP-AUTH) |
+  | Sender Address | Your email |
+  | SSL/TLS | SSL/TLS or STARTTLS |
+  | Username | Your email |
+  | Password | App password for Gmail/Outlook, or mailbox password for local SMTP |
+  | Subject | Email subject name |
+  | Recipients | List of recipient emails |
 
+[More on SMTP Authentication](#detailed-technical-information)  
+[More on SSL/TLS and STARTTLS](#detailed-technical-information)
 
-#### File sharing
-<img width="1424" height="354" alt="image" src="https://github.com/user-attachments/assets/e25a1521-0e16-466f-983e-4b2dfe7a97dd" />
+---
 
-All protocols and features which are not used/needed are disabled for security. This file server will only be used by Windows and iOS devices. SMB is the native file sharing protocol for Windows and has universal compatibility with other platforms including iOS, and thus SMB is enabled. 
+## Mapping the NAS Drive
 
-<img width="301" height="301" alt="image" src="https://github.com/user-attachments/assets/ac6b9bf4-6b94-49ca-b5a2-438a0c018e1f" />
+1. Open **File Explorer** and right-click **This PC**.
+2. Select **Map network drive…**
+3. (Optional) Choose your preferred drive letter.
+4. Enter the NAS path: `\\<NAS_IP>\<share_name>` where `<NAS_IP>` is the NAS IP and `<share_name>` is the folder share name.
 
-SMB3 provides the most secure form of protection and thus is the upper limit. The lower limit is only between the options SMB1 (which is insecure) and SMB2 and thus SMB2 is chosen.
+![Mapping NAS Drive](https://github.com/user-attachments/assets/c66335fe-5511-42bb-b668-21f7d47e0f90)
 
-[More information on SMB](#detailed-technical-information-anchor-point)
-<br><br>
+---
 
-
-#### IP Assignment
-Set a static IP address for reliable access, external access (although not pertinent in this case), easier management, simplified configuration; basically for ease of use. This can be done either through a DHCP reservation or by statically assigning an IP address.
-
-NOTE: <br>
-DHCP reservation - Done through the router to always assign the same IP address for the NAS. <br>
-Manual assignment - Done through the NAS network settings. Make sure to have it assigned outside of the DHCP range to avoid conflicts.
-<br><br>
-
-
-#### Update
-<img width="881" height="262" alt="image" src="https://github.com/user-attachments/assets/840608bb-9918-4513-93a7-62d1c5d79c0c" />
-
-Enable automatic updates.
-<br><br>
-
-
-#### Email Notifications
-<img width="703" height="583" alt="image" src="https://github.com/user-attachments/assets/23269c73-876c-4cb8-b733-6fdd44cca8bf" />
-
-Enable email notifications and fill out following information: <br> <br>
-smtp.gmail.com or smtp.mail.yahoo.com or etc... google "smtp server address for ___ mail" <br>
-Port 465 (SSL/TLS) or Port 587 (STARTTLS) <br>
-LOGIN (SMTP-AUTHENTICATION) <br>
-Sender address. <br>
-SSL/TLS or STARTTLS <br>
-The SMTP login username. NOTE: Same email as the sender address <br>
-The SMTP account password. NOTE: Gmail / Outlook → use an App Password, NOT your normal password. Local Postfix → mailbox password or SASL credentials <br>
-Email subject name. <br>
-Recipient emails to be added. <br>
-
-[More information on SMTP authentication](#detailed-technical-information-anchor-point)
-
-[More information on SSL/TLS and STARTTLS](#detailed-technical-information-anchor-point)
-<br><br><br><br><br>
-
-
-
-
-
-
-
-
-
-<a name="mapping-nas-drive-anchor-point"></a>
-## Mapping NAS Drive
-
-Open File Explorer and right-click on "This PC" in the left pane. <br>
-
-Press "Map network drive..." <br>
-
-Optional: Change drive letter to your desired letter. <br>
-
-Input NAS drive in the format "\\\server\share" where "server" is the IP address of the NAS and "share" is the name of the folder share you created in the NAS. <br>
-Ex:
-
-<img width="607" height="448" alt="image" src="https://github.com/user-attachments/assets/c66335fe-5511-42bb-b668-21f7d47e0f90" />
-<br><br><br><br><br>
-
-
-
-
-
-
-
-
-
-
-<a name="detailed-technical-information-anchor-point"></a>
 ## Detailed Technical Information
 
-<a href=https://www.backblaze.com/blog/nas-raid-levels-explained-choosing-the-right-level-to-protect-your-nas-data/
-target="_blank" rel="noopener noreferrer">More information on RAID</a>
-
-<a href="https://visualitynq.com/resources/articles/what-is-smb-what-it-decision-makers-need-to-know/"
-target="_blank" rel="noopener noreferrer">More information on SMB</a>
-
-<a href="https://www.mailslurp.com/blog/smtp-authentication/"
-target="_blank" rel="noopener noreferrer">More information on SMTP authentication</a>
-
-<a name="ssl-tls-starttls-anchor-point"></a>
-<a href="https://mailtrap.io/blog/starttls-ssl-tls/"
-target="_blank" rel="noopener noreferrer">More information on SSL/TLS and STARTTLS</a>
- 
+- [RAID Levels Explained](https://www.backblaze.com/blog/nas-raid-levels-explained-choosing-the-right-level-to-protect-your-nas-data/)
+- [SMB Protocol Overview](https://visualitynq.com/resources/articles/what-is-smb-what-it-decision-makers-need-to-know/)
+- [SMTP Authentication Guide](https://www.mailslurp.com/blog/smtp-authentication/)
+- [SSL/TLS and STARTTLS Explained](https://mailtrap.io/blog/starttls-ssl-tls/)

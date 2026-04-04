@@ -1,6 +1,6 @@
-# NAS Homelab
+# NAS File Server
 
-This repository documents the configuration, setup, and operational decisions for a local NAS file server. It is intended for learning, reproducibility, and homelab reference purposes.
+This repository documents the configuration, setup, and operational decisions for a local NAS file server.
 
 ---
 
